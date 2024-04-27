@@ -128,7 +128,7 @@ function Emogen() {
                             <div className='result1'>Male: <p><b>{predictions.genderPrediction[0].confidenceScores.Male}</b></p></div>
                             <div className='result2'>Female: <p><b>{predictions.genderPrediction[0].confidenceScores.Female}</b></p></div>
                             <div className='result3'>Predicted Emotion: <p><b>{predictions.emotionPrediction.predictedEmotion}</b></p></div>
-                            <div className='result4'>Confidence Score: <p><b>{predictions.emotionPrediction.confidenceScore*100}</b></p></div>
+                            <div className='result4'>Confidence Score: <p><b>{(predictions.emotionPrediction.confidenceScore*100).toFixed(2)}</b></p></div>
                         </div>
                     </div>
                 }
