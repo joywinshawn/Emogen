@@ -107,19 +107,36 @@ function Emogen() {
                 {showResults &&
                     <div className='transparent-box2'>
                         <h1>Estimated Result</h1>
-                        <div className='results' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr' }}>
-                            <div className='result1'>Emotion: <p><b>{predictions.emotionPrediction.predictedEmotion}</b></p></div>
-                            <div className='result2'>Confidence: <p><b>{(predictions.emotionPrediction.confidenceScore * 100).toFixed(2)}%</b></p></div>
-                            <div className='result3'>Gender: <p><b>{predictions.genderPrediction[0].predictedGender}</b></p></div>
-                            <div className='result4'>
-                                Confidence:
-                                <p>
-                                    <b>
-                                        {`${(predictions.genderPrediction[0].confidenceScores.Male > predictions.genderPrediction[0].confidenceScores.Female ?
-                                            predictions.genderPrediction[0].confidenceScores.Male : predictions.genderPrediction[0].confidenceScores.Female) * 100
-                                            }%`}
-                                    </b>
-                                </p>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+                            <div className='emoji'>
+                                {predictions.emotionPrediction.predictedEmotion === 'Happy' && predictions.genderPrediction[0].predictedGender === 'Male' ?
+                                    <img src="/maleHappy.jpg" alt="HappyMale" /> :
+                                    predictions.emotionPrediction.predictedEmotion === 'Sad' && predictions.genderPrediction[0].predictedGender === 'Male' ?
+                                    <img src="/maleSad.jpg" alt="SadMale" /> :
+                                        predictions.emotionPrediction.predictedEmotion === 'Neutral' && predictions.genderPrediction[0].predictedGender === 'Male' ?
+                                        <img src="/maleNeutral.jpg" alt="NeutralMale" /> :
+                                        predictions.emotionPrediction.predictedEmotion === 'Happy' && predictions.genderPrediction[0].predictedGender === 'Female' ?
+                                        <img src="/femaleHappy.jpg" alt="Happyfemale" /> :
+                                        predictions.emotionPrediction.predictedEmotion === 'Sad' && predictions.genderPrediction[0].predictedGender === 'Female' ?
+                                        <img src="/femaleSad.jpg" alt="Sadfemale" /> :
+                                        predictions.emotionPrediction.predictedEmotion === 'Neutral' && predictions.genderPrediction[0].predictedGender === 'Female' ?
+                                        <img src="/femaleNeutral.jpg" alt="Neutralfemale" /> : 'ERROR'
+                                    }
+                            </div>
+                            <div className='results' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr' }}>
+                                <div className='result1'>Emotion: <p><b>{predictions.emotionPrediction.predictedEmotion}</b></p></div>
+                                <div className='result2'>Confidence: <p><b>{(predictions.emotionPrediction.confidenceScore * 100).toFixed(2)}%</b></p></div>
+                                <div className='result3'>Gender: <p><b>{predictions.genderPrediction[0].predictedGender}</b></p></div>
+                                <div className='result4'>
+                                    Confidence:
+                                    <p>
+                                        <b>
+                                            {`${(predictions.genderPrediction[0].confidenceScores.Male > predictions.genderPrediction[0].confidenceScores.Female ?
+                                                predictions.genderPrediction[0].confidenceScores.Male : predictions.genderPrediction[0].confidenceScores.Female) * 100
+                                                }%`}
+                                        </b>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
