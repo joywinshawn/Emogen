@@ -7,7 +7,7 @@ function Emogen() {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState(null);
     const [showPredict, setShowPredict] = useState(false);
-    const [predictions, setPredictions] = useState(null)
+    const [predictions, setPredictions] = useState(null);
     // const [predictions, setPredictions] = useState({
     //     "emotionPrediction": {
     //         "confidenceScore": 0.34,
@@ -56,7 +56,7 @@ function Emogen() {
     const handleGenerate = async () => {
         const formData = new FormData();
         formData.append("file", postFile);
-    
+
         try {
             const response = await axios.post("/upload", formData);
             console.log(response.data); // Log to confirm structure
@@ -71,7 +71,7 @@ function Emogen() {
             console.error("Error uploading file:", error);
         }
     };
-    
+
     return (
         <>
             <div className="video-background">
@@ -122,13 +122,21 @@ function Emogen() {
                 }
                 {showResults &&
                     <div className='transparent-box2'>
-                        <h1>Predicted Gender: {predictions.genderPrediction[0].predictedGender}</h1>
-                        <h2>Confidence Scores:</h2>
+                        <h1>ESTIMATED RESULT</h1>
                         <div className='results' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr' }}>
-                            <div className='result1'>Male: <p><b>{predictions.genderPrediction[0].confidenceScores.Male}</b></p></div>
-                            <div className='result2'>Female: <p><b>{predictions.genderPrediction[0].confidenceScores.Female}</b></p></div>
-                            <div className='result3'>Predicted Emotion: <p><b>{predictions.emotionPrediction.predictedEmotion}</b></p></div>
-                            <div className='result4'>Confidence Score: <p><b>{(predictions.emotionPrediction.confidenceScore*100).toFixed(2)}</b></p></div>
+                            <div className='result1'>Emotion: <p><b>{predictions.emotionPrediction.predictedEmotion}</b></p></div>
+                            <div className='result2'>Confidence: <p><b>{(predictions.emotionPrediction.confidenceScore * 100).toFixed(2)}%</b></p></div>
+                            <div className='result3'>Gender: <p><b>{predictions.genderPrediction[0].predictedGender}</b></p></div>
+                            <div className='result4'>
+                                Confidence:
+                                <p>
+                                    <b>
+                                        {`${(predictions.genderPrediction[0].confidenceScores.Male > predictions.genderPrediction[0].confidenceScores.Female ?
+                                            predictions.genderPrediction[0].confidenceScores.Male : predictions.genderPrediction[0].confidenceScores.Female) * 100
+                                            }%`}
+                                    </b>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 }
@@ -138,11 +146,6 @@ function Emogen() {
                     <>
                         <button className='buttonreupload' onClick={handleReupload}>RE-UPLOAD</button>&nbsp;&nbsp;&nbsp;
                         <button className='buttongenerate' onClick={handleGenerate}>GENERATE</button>
-                    </>
-                }
-                {showResults &&
-                    <>
-                        <button className='buttonreupload' onClick={handleTitleClick}>BACK</button>
                     </>
                 }
             </div>
