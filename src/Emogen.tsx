@@ -7,23 +7,24 @@ function Emogen() {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState(null);
     const [showPredict, setShowPredict] = useState(false);
-    const [predictions, setPredictions] = useState({
-        "emotionPrediction": {
-            "confidenceScore": 0.34,
-            "predictedEmotion": "Happy"
-        },
-        "genderPrediction": [
-            {
-                "confidenceScores": {
-                    "Female": 0.86,
-                    "Male": 0.14
-                },
-                "predictedGender": "Female"
-            },
-            200
-        ]
-    }
-    );
+    const [predictions, setPredictions] = useState(null)
+    // const [predictions, setPredictions] = useState({
+    //     "emotionPrediction": {
+    //         "confidenceScore": 0.34,
+    //         "predictedEmotion": "Happy"
+    //     },
+    //     "genderPrediction": [
+    //         {
+    //             "confidenceScores": {
+    //                 "Female": 0.86,
+    //                 "Male": 0.14
+    //             },
+    //             "predictedGender": "Female"
+    //         },
+    //         200
+    //     ]
+    // }
+    // );
     const [postFile, setFileForPost] = useState(null);
     const [showResults, setShowResults] = useState(false);
 
@@ -52,10 +53,25 @@ function Emogen() {
         setShowPredict(false);
     };
 
-    const handleGenerate = () => {
-        setShowResults(true);
+    const handleGenerate = async () => {
+        const formData = new FormData();
+        formData.append("file", postFile);
+    
+        try {
+            const response = await axios.post("/upload", formData);
+            console.log(response.data); // Log to confirm structure
+            if (response.status === 200) { // Check if the response is OK
+                setPredictions(response.data);
+                setShowResults(true);
+                setShowPredict(false);
+            } else {
+                throw new Error('Failed to fetch predictions');
+            }
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        }
     };
-
+    
     return (
         <>
             <div className="video-background">
@@ -112,7 +128,7 @@ function Emogen() {
                             <div className='result1'>Male: <p><b>{predictions.genderPrediction[0].confidenceScores.Male}</b></p></div>
                             <div className='result2'>Female: <p><b>{predictions.genderPrediction[0].confidenceScores.Female}</b></p></div>
                             <div className='result3'>Predicted Emotion: <p><b>{predictions.emotionPrediction.predictedEmotion}</b></p></div>
-                            <div className='result4'>Confidence Score: <p><b>{predictions.emotionPrediction.confidenceScore}</b></p></div>
+                            <div className='result4'>Confidence Score: <p><b>{(predictions.emotionPrediction.confidenceScore*100).toFixed(2)}</b></p></div>
                         </div>
                     </div>
                 }
