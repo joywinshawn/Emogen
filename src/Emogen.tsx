@@ -8,23 +8,6 @@ function Emogen() {
     const [fileName, setFileName] = useState(null);
     const [showPredict, setShowPredict] = useState(false);
     const [predictions, setPredictions] = useState(null);
-    // const [predictions, setPredictions] = useState({
-    //     "emotionPrediction": {
-    //         "confidenceScore": 0.34,
-    //         "predictedEmotion": "Happy"
-    //     },
-    //     "genderPrediction": [
-    //         {
-    //             "confidenceScores": {
-    //                 "Female": 0.86,
-    //                 "Male": 0.14
-    //             },
-    //             "predictedGender": "Female"
-    //         },
-    //         200
-    //     ]
-    // }
-    // );
     const [postFile, setFileForPost] = useState(null);
     const [showResults, setShowResults] = useState(false);
 
@@ -59,21 +42,22 @@ function Emogen() {
 
         try {
             const response = await axios.post("/upload", formData);
-            console.log(response.data); // Log to confirm structure
-            if (response.status === 200) { // Check if the response is OK
+            console.log(response.data);
+            if (response.status === 200) {
                 setPredictions(response.data);
                 setShowResults(true);
                 setShowPredict(false);
-            } else {
+            }
+            else {
                 throw new Error('Failed to fetch predictions');
             }
         } catch (error) {
-            console.error("Error uploading file:", error);
+            console.error("Error");
         }
     };
 
     return (
-        <>
+        <div>
             <div className="video-background">
                 <video autoPlay loop muted className="fullscreen-video">
                     <source src="/videoback.mp4" type="video/mp4" />
@@ -122,7 +106,7 @@ function Emogen() {
                 }
                 {showResults &&
                     <div className='transparent-box2'>
-                        <h1>ESTIMATED RESULT</h1>
+                        <h1>Estimated Result</h1>
                         <div className='results' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr' }}>
                             <div className='result1'>Emotion: <p><b>{predictions.emotionPrediction.predictedEmotion}</b></p></div>
                             <div className='result2'>Confidence: <p><b>{(predictions.emotionPrediction.confidenceScore * 100).toFixed(2)}%</b></p></div>
@@ -149,7 +133,7 @@ function Emogen() {
                     </>
                 }
             </div>
-        </>
+        </div>
     );
 }
 
