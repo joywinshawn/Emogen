@@ -306,6 +306,12 @@ body {
     0 0 150px #0090ff;
 }
 
+.result-container {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
 .results {
     justify-items: center;
     align-content: center;

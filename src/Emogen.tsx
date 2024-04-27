@@ -107,7 +107,7 @@ function Emogen() {
                 {showResults &&
                     <div className='transparent-box2'>
                         <h1>Estimated Result</h1>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+                        <div className='result-container' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
                             <div className='emoji'>
                                 {predictions.emotionPrediction.predictedEmotion === 'Happy' && predictions.genderPrediction[0].predictedGender === 'Male' ?
                                     <img src="/maleHappy.jpg" alt="HappyMale" /> :
